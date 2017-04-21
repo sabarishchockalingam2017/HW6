@@ -228,9 +228,10 @@ void LCD_drawBar(unsigned short locx, unsigned short locy, unsigned short color,
             for(j=0;j<width;j++){
                LCD_drawPixel(locx+i,locy+j,color);
             }
-        }else{
+        }
+            else{
             for(j=0;j<width;j++){
-              LCD_drawPixel(locx+i,locy+j,0xFFFF);
+              LCD_drawPixel(locx+i,locy+j,BGCOLOR);
             }
         }
     }

@@ -79,7 +79,9 @@ int main() {
     LCD_writeString(28,60,0xFC00,buffer);
     unsigned char count=0;
     char cb[10];
-    double fps;
+    float fps;
+    
+    
     while(1) {
 //        LATBbits.LATB7=!PORTBbits.RB4;
         _CP0_SET_COUNT(0);
@@ -89,18 +91,29 @@ int main() {
                   ;   // Pin B4 is the USER switch, low (FALSE) if pressed.
              }
         }
-            LCD_drawBar(28,42,0x0FF0,70,4,count);
-            count++;
+        
+        _CP0_SET_COUNT(0); 
+        sprintf(buffer,"Hello world %%d!");
+        LCD_writeString(28,32,0xFC00,buffer);
+        sprintf(buffer,"fps: ");
+        LCD_writeString(28,60,0xFC00,buffer);
+        LCD_drawBar(20,42,0x0FF0,100,4,count);
+        fps=(float)24000000/_CP0_GET_COUNT();
+        count++;
 
-            sprintf(cb,"%d  ",count);
-            LCD_writeString(62,49,0xFC00,cb);
+        sprintf(cb,"%d  ",count);
+        LCD_writeString(62,49,0xFC00,cb);
             
-           if(count==100){
-                count=0;
-            }
+        sprintf(cb,"%5.2f",fps);
+        LCD_writeString(58,60,0xFC00,cb);
+            
+        if(count==100){
+            count=0;
+        }
         
 
         LATAINV=0b10000;
+        
 	    // use _CP0_SET_COUNT(0) and _CP0_GET_COUNT() to test the PIC timing
 		  // remember the core timer runs at half the sysclk
     }
