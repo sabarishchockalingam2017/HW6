@@ -98,12 +98,11 @@ int main() {
         sprintf(buffer,"fps: ");
         LCD_writeString(28,60,0xFC00,buffer);
         LCD_drawBar(20,42,0x0FF0,100,4,count);
-        fps=(float)24000000/_CP0_GET_COUNT();
         count++;
-
         sprintf(cb,"%d  ",count);
-        LCD_writeString(62,49,0xFC00,cb);
-            
+        LCD_writeString(62,49,0xFC00,cb);   
+        fps=(float)24000000/_CP0_GET_COUNT();  
+        
         sprintf(cb,"%5.2f",fps);
         LCD_writeString(58,60,0xFC00,cb);
             
