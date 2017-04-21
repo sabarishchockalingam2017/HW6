@@ -71,42 +71,38 @@ int main() {
     TRISAbits.TRISA4=0; //making A4 into LAT for LED output
     LATBbits.LATB7=1;
     LATAbits.LATA4=1;
-    LCD_drawPixel(64,64,0xFC00);
-    LCD_drawPixel(64,65,0x0DE0);
-    LCD_drawPixel(64,66,0x00FF);
-    LCD_clearScreen(0xFFFF);
+    LCD_clearScreen(0x00FF);
+    char buffer[50];
+    sprintf(buffer,"Hello world %%d!");
+    LCD_writeString(28,32,0xFC00,buffer);
+    sprintf(buffer,"fps: ");
+    LCD_writeString(28,60,0xFC00,buffer);
+    unsigned char count=0;
+    char cb[10];
+    double fps;
     while(1) {
 //        LATBbits.LATB7=!PORTBbits.RB4;
         _CP0_SET_COUNT(0);
-        while(_CP0_GET_COUNT()<10000000){
+        while(_CP0_GET_COUNT()<4800000){
             ;
             while(!PORTBbits.RB4) {
                   ;   // Pin B4 is the USER switch, low (FALSE) if pressed.
-             }    
+             }
         }
-        LCD_clearScreen(0xFFFF);
-delay();
-LCD_clearScreen(0x0000);
-delay();
-    LCD_clearScreen(0xFC00);
-    delay();
-    LCD_clearScreen(0x0DE0);
-    delay();
-    LCD_clearScreen(0x00FF);
+            LCD_drawBar(28,42,0x0FF0,70,4,count);
+            count++;
+
+            sprintf(cb,"%d  ",count);
+            LCD_writeString(62,49,0xFC00,cb);
+            
+           if(count==100){
+                count=0;
+            }
+        
 
         LATAINV=0b10000;
 	    // use _CP0_SET_COUNT(0) and _CP0_GET_COUNT() to test the PIC timing
 		  // remember the core timer runs at half the sysclk
     }
     return 0;
-}
-
-void delay(void) {
-  int j;
-  for (j = 0; j < 1000000; j++) { // number is 1 million
-      ;
-    while(!PORTBbits.RB4) {
-        ;   // Pin B4 is the USER switch, low (FALSE) if pressed.
-    }
-  }
 }

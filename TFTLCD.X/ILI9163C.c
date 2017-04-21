@@ -184,8 +184,54 @@ void LCD_setAddr(unsigned short x0, unsigned short y0, unsigned short x1, unsign
 
 void LCD_clearScreen(unsigned short color) {
     int i;
+    BGCOLOR=color;
     LCD_setAddr(0,0,_GRAMWIDTH,_GRAMHEIGH);
 		for (i = 0;i < _GRAMSIZE; i++){
 			LCD_data16(color);
 		}
+}
+
+void LCD_drawChar(unsigned short locx, unsigned short locy, unsigned short color, char ascii){
+    unsigned short int i,j;
+    char ascii965;
+    
+    if((locx)<=126 & (locy)<=125){
+    for(j=0;j<5;j++){
+        ascii965=ASCII[ascii-0x20][j];
+    for(i=0;i<8;i++){
+        if(ascii965 & (0b00000001<<i)){
+        LCD_drawPixel(locx+j,locy+i,color);
+        }
+        else{
+          LCD_drawPixel(locx+j,locy+i,BGCOLOR);  
+        }
+    }
+    }
+    }
+    
+}
+
+void LCD_writeString(unsigned short locx, unsigned short locy, unsigned short color, char toWrite[]){
+    int i=0;
+
+    while(toWrite[i]){
+        LCD_drawChar(locx+(6*i), locy, color, toWrite[i]);
+        i++;
+    }
+    
+}
+
+void LCD_drawBar(unsigned short locx, unsigned short locy, unsigned short color, unsigned char len, unsigned char width, unsigned char fill){
+    int i,j;
+    for(i=0;i<len;i++){
+        if(i<((int)((double)len*fill/100))){
+            for(j=0;j<width;j++){
+               LCD_drawPixel(locx+i,locy+j,color);
+            }
+        }else{
+            for(j=0;j<width;j++){
+              LCD_drawPixel(locx+i,locy+j,0xFFFF);
+            }
+        }
+    }
 }

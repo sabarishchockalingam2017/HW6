@@ -4,6 +4,9 @@
 #ifndef ILI9163C_H__
 #define ILI9163C_H__
 
+#include <stdio.h> //for string manipulation
+
+static unsigned short BGCOLOR=0xFFFF;
 // lookup table for all of the ascii characters
 static const char ASCII[96][5] = {
  {0x00, 0x00, 0x00, 0x00, 0x00} // 20  (space)
@@ -176,5 +179,8 @@ void LCD_init(void); // send the initializations to the LCD
 void LCD_drawPixel(unsigned short, unsigned short, unsigned short); // set the x,y pixel to a color
 void LCD_setAddr(unsigned short, unsigned short, unsigned short, unsigned short); // set the memory address you are writing to
 void LCD_clearScreen(unsigned short); // set the color of every pixel
+void LCD_drawChar(unsigned short, unsigned short, unsigned short, char);
+void LCD_writeString(unsigned short, unsigned short, unsigned short, char[]);
+void LCD_drawBar(unsigned short, unsigned short, unsigned short, unsigned char, unsigned char, unsigned char);
 
 #endif
