@@ -77,9 +77,11 @@ int main() {
     LCD_writeString(28,32,0xFC00,buffer);
     sprintf(buffer,"fps: ");
     LCD_writeString(28,60,0xFC00,buffer);
+
     unsigned char count=0;
-    char cb[10];
+    char cb[50];
     float fps;
+    unsigned short ticks;
     
     
     while(1) {
@@ -105,7 +107,13 @@ int main() {
         
         sprintf(cb,"%5.2f",fps);
         LCD_writeString(58,60,0xFC00,cb);
-            
+        
+        sprintf(buffer,"aaaaaaaaaaaaaaaaaaaaaaaaa");
+        _CP0_SET_COUNT(0); 
+        LCD_writeString(0,0,0xFC00,buffer);
+        ticks=_CP0_GET_COUNT();
+        sprintf(cb,"row ticks: %d",ticks);
+        LCD_writeString(2,69,0xFC00,cb);
         if(count==100){
             count=0;
         }
